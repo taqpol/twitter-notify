@@ -8,6 +8,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def main():
 	print(request.data)
+	send_text()
 	return request.data
 	# parse_post_data(request.data)
 
