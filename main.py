@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request
 from twilio.rest import Client
 import json
 import os
@@ -11,7 +11,7 @@ def main():
 	twitch_link = parse_post_data(request.data)
 	if twitch_link:
 		send_text(twitch_link)
-	return Response
+	return Flask.make_response()
 
 
 def send_text(link):
