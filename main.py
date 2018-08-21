@@ -11,7 +11,7 @@ def main():
 	twitch_link = parse_post_data(request.data)
 	if twitch_link:
 		send_text(twitch_link)
-	return Flask.make_response()
+	return app.make_response()
 
 
 def send_text(link):
