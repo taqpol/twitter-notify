@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def main():
 	twitch_link = parse_post_data(request.data)
+	print(twitch_link)
 	if twitch_link:
 		send_text(twitch_link)
 	return app.make_response('')
