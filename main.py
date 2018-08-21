@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from twilio.rest import Client
 import json
 import os
@@ -7,12 +7,13 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
-	print(request.data)
-	send_text()
-	return request.data
-	# parse_post_data(request.data)
+	twitch_link = parse_post_data(request.data)
+	if twitch_link:
+		send_text(twitch_link)
+	return Response.status_code
 
-def send_text():
+
+def send_text(link):
 	account_sid = os.environ.get('account_sid')
 	auth_token  = os.environ.get('auth_token')
 
@@ -21,12 +22,19 @@ def send_text():
 	message = client.messages.create(
 	    to=os.environ.get('receiving_number'), 
 	    from_=os.environ.get('sending_number'),
-	    body="Hello from Python!")
+	    body=tweet_body_string)
 
-	print(message.sid)
 
 def parse_post_data(post_data):
-	print(post_data)
+	tweet_body_string = post_data.decode()
+	match_obj = re.findall('twitch.tv\/\S*', tweet_body_string)
+
+	if match_obj:
+		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng', 'twitch.tv/xenotek'] in match_obj:
+			return
+		else:
+			return tweet_body_string
+
 
 if __name__ == '__main__':
 	app.run()
