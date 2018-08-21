@@ -31,7 +31,7 @@ def parse_post_data(post_data):
 	match_obj = re.findall('twitch.tv\/\S*', tweet_body_string)
 
 	if match_obj:
-		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng', 'twitch.tv/xenotek'] in match_obj:
+		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in match_obj:
 			return
 		else:
 			return tweet_body_string
