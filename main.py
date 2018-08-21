@@ -10,6 +10,7 @@ app = Flask(__name__)
 def main():
 	twitch_link = parse_post_data(request.data)
 	print(twitch_link)
+	print(request.data)
 	if twitch_link:
 		send_text(twitch_link)
 	return app.make_response('')
@@ -24,7 +25,7 @@ def send_text(link):
 	message = client.messages.create(
 	    to=os.environ.get('receiving_number'), 
 	    from_=os.environ.get('sending_number'),
-	    body=tweet_body_string)
+	    body=link)
 
 
 def parse_post_data(post_data):
