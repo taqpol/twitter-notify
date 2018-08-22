@@ -1,6 +1,5 @@
 from flask import Flask, request
 from twilio.rest import Client
-import json
 import os
 import re
 import requests
@@ -9,7 +8,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
-	print(request.data)
 	tweet = parse_post_data(request.data)
 	if tweet:
 		send_text(tweet)
@@ -30,6 +28,8 @@ def send_text(link):
 
 def parse_post_data(post_data):
 	tweet_url, tweet_body = post_data.decode().split(None, 1)
+	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
+		return
 	r = requests.get(tweet_url)
 	match_obj = re.findall('twitch.tv\/\S*', r.text)
 	if match_obj:
