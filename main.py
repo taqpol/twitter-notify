@@ -10,9 +10,9 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def main():
 	print(request.data)
-	# twitch_link = parse_post_data(request.data)
-	# if twitch_link:
-	# 	send_text(twitch_link)
+	tweet = parse_post_data(request.data)
+	if tweet:
+		send_text(tweet)
 	return app.make_response('')
 
 
@@ -28,15 +28,15 @@ def send_text(link):
 	    body=link)
 
 
-# def parse_post_data(post_data):
-# 	tweet_url = post_data.decode()
-# 	r = request.get(tweet_url)
-# 	match_obj = re.findall('twitch.tv\/\S*', r.text)
-# 	if match_obj:
-# 		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in match_obj:
-# 			return
-# 		else:
-# 			return tweet_body_string
+def parse_post_data(post_data):
+	tweet_url, tweet_body = post_data.decode().split(None, 1)
+	r = request.get(tweet_url)
+	match_obj = re.findall('twitch.tv\/\S*', r.text)
+	if match_obj:
+		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in match_obj:
+			return
+		else:
+			return tweet_body
 
 
 if __name__ == '__main__':
