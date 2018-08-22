@@ -30,7 +30,7 @@ def send_text(link):
 
 def parse_post_data(post_data):
 	tweet_url, tweet_body = post_data.decode().split(None, 1)
-	r = request.get(tweet_url)
+	r = requests.get(tweet_url)
 	match_obj = re.findall('twitch.tv\/\S*', r.text)
 	if match_obj:
 		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in match_obj:
