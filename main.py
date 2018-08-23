@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
-	import pdb; pdb.set_trace()
+	print(request.data)
 	tweet = parse_post_data(request.data)
 	if tweet:
 		send_text(tweet)
@@ -30,6 +30,7 @@ def send_text(link):
 
 def parse_post_data(post_data):
 	tweet_data = json.loads(post_data.decode())
+	print(tweet_data)
 	tweet_url = tweet_data['tweet_link']
 	tweet_body = tweet_data['tweet_body']
 	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
