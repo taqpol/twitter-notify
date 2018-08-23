@@ -33,8 +33,8 @@ def parse_post_data(post_data):
 	print(tweet_data)
 	tweet_url = tweet_data['tweet_link']
 	tweet_body = tweet_data['tweet_body']
-	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
-		return
+	# if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
+	# 	return
 	r = requests.get(tweet_url)
 	match_obj = re.findall('twitch.tv\/\S*', r.text)
 	if match_obj:
