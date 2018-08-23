@@ -28,7 +28,7 @@ def send_text(link):
 
 
 def parse_post_data(post_data):
-	tweet_data = json.loads(post_data.decode())
+	tweet_data = json.loads(post_data.decode(), strict=False)
 	tweet_url = tweet_data['tweet_link']
 	tweet_body = tweet_data['tweet_body']
 	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
