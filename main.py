@@ -29,13 +29,11 @@ def send_text(link):
 
 
 def parse_post_data(post_data):
-	print(post_data)
 	tweet_data = json.loads(post_data.decode(), strict=False)
-	print(tweet_data)
 	tweet_url = tweet_data['tweet_link']
 	tweet_body = tweet_data['tweet_body']
-	# if re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
-	# 	return
+	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
+		return
 	r = requests.get(tweet_url)
 	stream_links = re.findall('twitch.tv\/\S*', r.text)
 	if stream_links or os.environ.get('keywords') in tweet_body.lower():
