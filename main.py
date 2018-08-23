@@ -3,6 +3,7 @@ from twilio.rest import Client
 import os
 import re
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -27,7 +28,9 @@ def send_text(link):
 
 
 def parse_post_data(post_data):
-	tweet_url, tweet_body = post_data.decode().split(None, 1)
+	tweet_data = json.loads(post_data.decode())
+	tweet_url = tweet_data['tweet_link']
+	tweet_body = tweet_data['tweet_body']
 	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
 		return
 	r = requests.get(tweet_url)
