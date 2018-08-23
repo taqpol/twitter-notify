@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
-	print(request.data)
+	print(request.json)
 	tweet = parse_post_data(request.data)
 	if tweet:
 		send_text(tweet)
@@ -33,12 +33,12 @@ def parse_post_data(post_data):
 	print(tweet_data)
 	tweet_url = tweet_data['tweet_link']
 	tweet_body = tweet_data['tweet_body']
-	# if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
-	# 	return
+	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url):
+		return
 	r = requests.get(tweet_url)
-	match_obj = re.findall('twitch.tv\/\S*', r.text)
-	if match_obj:
-		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in match_obj:
+	stream_links = re.findall('twitch.tv\/\S*', r.text)
+	if stream_links or 'free' in tweet_body.lower():
+		if ['twitch.tv/vainglory', 'twitch.tv/excoundrel', 'twitch.tv/qlash_eng'] in stream_links:
 			return
 		else:
 			return tweet_body
