@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
+	import pdb; pdb.set_trace()
 	tweet = parse_post_data(request.data)
 	if tweet:
 		send_text(tweet)
