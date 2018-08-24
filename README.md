@@ -11,6 +11,8 @@ written with flask and twilio, running on gunicorn, deployed on heroku, and list
   * receiving_number (the number that you want to receive text messages)
   * account_sid (your twilio sid)
   * auth_token (your twilio auth token)
+  * keywords: use the following structure: \["keyword1", "keyword2"...\]. leave as an empty list if you don't plan on further filtering by keyword.
+  * blacklist: use the following structure: \["blacklisted_twitch_stream_link1", "blacklisted_twitch_stream_link2"...\]. leave as an empty list if you want to be notified of all twitch streams.
 
 * set up IFTTT trigger with maker webhooks to respond to the vainglory twitter and send a request to your heroku application
 
