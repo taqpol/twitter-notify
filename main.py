@@ -36,7 +36,7 @@ def parse_post_data(post_data):
 		return
 	r = requests.get(tweet_url)
 	stream_links = re.findall('twitch.tv\/\S*', r.text)
-	if stream_links or os.environ.get('keywords') in tweet_body.lower():
+	if stream_links or ast.literal_eval(os.environ.get('keywords')) in tweet_body.lower():
 		if ast.literal_eval(os.environ.get('blacklist')) in stream_links:
 			return
 		else:
