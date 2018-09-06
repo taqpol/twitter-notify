@@ -10,10 +10,15 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def main():
-	tweet = parse_post_data(request.data)
-	if tweet:
-		send_text(tweet)
-	return app.make_response('')
+	try:
+		tweet = parse_post_data(request.data)
+	except:
+		print(request.data)
+		return app.make_response('')
+	else:
+		if tweet:
+			send_text(tweet)
+		return app.make_response('')
 
 
 def send_text(link):
@@ -29,10 +34,9 @@ def send_text(link):
 
 
 def parse_post_data(post_data):
-	tweet_data = json.loads(post_data.decode(), strict=False)
-	tweet_url = tweet_data['tweet_link']
-	tweet_body = tweet_data['tweet_body']
-	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url) or re.match('RT @\S*', tweet_body):
+	tweet_url, tweet_body = post_data.replace('"', '').replace("'", '').decode().split(' ')
+	if not re.search('https:\/\/twitter.com\/vainglory\/\S*', tweet_url) or re.search('RT @\S*', tweet_body)
+	or re.match('@\S**', tweet_body):
 		return
 	r = requests.get(tweet_url)
 	stream_links = re.findall('twitch.tv\/\S*', r.text)
@@ -51,3 +55,4 @@ def check_keywords(tweet_text):
 
 if __name__ == '__main__':
 	app.run()
+
