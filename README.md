@@ -20,4 +20,4 @@ written with flask and twilio, running on gunicorn, deployed on heroku, and list
   * username to watch: vainglory
   * method: POST
   * content type: application/json
-  * body: {"tweet_link": "{{LinkToTweet}}", "tweet_body":"{{Text}}"}
+  * body: {{LinkToTweet}} {{Text}}"}
