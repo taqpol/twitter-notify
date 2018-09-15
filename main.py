@@ -14,7 +14,7 @@ def main():
 	try:
 		tweet = parse_post_data(request.data)
 	except:
-		send_text(traceback.print_exc())
+		send_text(traceback.format_exc())
 		return app.make_response('')
 	else:
 		if tweet:
