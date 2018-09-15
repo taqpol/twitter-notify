@@ -5,6 +5,7 @@ import re
 import requests
 import json
 import ast
+import traceback
 
 app = Flask(__name__)
 
@@ -13,7 +14,7 @@ def main():
 	try:
 		tweet = parse_post_data(request.data)
 	except:
-		print(request.data)
+		send_text(traceback.print_exc())
 		return app.make_response('')
 	else:
 		if tweet:
@@ -21,7 +22,7 @@ def main():
 		return app.make_response('')
 
 
-def send_text(link):
+def send_text(text_body):
 	account_sid = os.environ.get('account_sid')
 	auth_token  = os.environ.get('auth_token')
 
@@ -30,7 +31,7 @@ def send_text(link):
 	message = client.messages.create(
 	    to=os.environ.get('receiving_number'), 
 	    from_=os.environ.get('sending_number'),
-	    body=link)
+	    body=text_body)
 
 
 def parse_post_data(post_data):
