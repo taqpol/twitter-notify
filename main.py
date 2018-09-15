@@ -35,7 +35,7 @@ def send_text(text_body):
 
 
 def parse_post_data(post_data):
-	tweet_url, tweet_body = post_data.replace(b'"', b'').replace(b"'", b'').decode().split(' ')
+	tweet_url, tweet_body = post_data.replace(b'"', b'').replace(b"'", b'').decode().split(' ', 1)
 	if not re.match('http:\/\/twitter.com\/vainglory\/\S*', tweet_url) or re.match('RT @\S*', tweet_body) or re.match('@\S*', tweet_body):
 		return
 	r = requests.get(tweet_url)
