@@ -36,15 +36,18 @@ def send_text(text_body):
 
 def parse_post_data(post_data):
 	tweet_url, tweet_body = post_data.replace(b'"', b'').replace(b"'", b'').decode().split(' ', 1)
-	if not re.match('http:\/\/twitter.com\/vainglory\/\S*', tweet_url) or re.match('RT @\S*', tweet_body) or re.match('@\S*', tweet_body):
+	if not re.match('http:\/\/twitter.com\/vainglory\/\S*', tweet_url) or re.match('@\S*', tweet_body):
 		return
 	r = requests.get(tweet_url)
-	stream_links = re.findall('twitch.tv\/\S*', r.text)
-	if stream_links or check_keywords(tweet_body.lower()):
-		if ast.literal_eval(os.environ.get('blacklist')) in stream_links:
-			return
-		else:
-			return tweet_body
+	if check_keywords(tweet_body.lower()):
+		return tweet_body
+	else:
+		stream_links = re.findall('twitch.tv\/\S*', r.text)
+		if stream_links:
+			if ast.literal_eval(os.environ.get('blacklist')) in stream_links:
+				return
+			else:
+				return tweet_body
 
 def check_keywords(tweet_text):
 	for keyword in ast.literal_eval(os.environ.get('keywords')):
