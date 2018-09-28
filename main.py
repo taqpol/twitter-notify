@@ -42,10 +42,11 @@ def parse_post_data(post_data):
 	if check_keywords(tweet_body.lower()):
 		return tweet_body
 	else:
-		stream_links = re.findall('twitch.tv\/\S*', r.text)
+		stream_links = re.findall('twitch\.tv\/\w*', r.text)
 		if stream_links:
-			if ast.literal_eval(os.environ.get('blacklist')) in stream_links:
-				return
+			for link in ast.literal_eval(os.environ.get('blacklist')):
+				if link in stream_links:
+					return
 			else:
 				return tweet_body
 
