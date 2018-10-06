@@ -49,6 +49,8 @@ def parse_post_data(post_data):
 					return
 			else:
 				return tweet_body
+		else:
+			return
 
 def check_keywords(tweet_text):
 	for keyword in ast.literal_eval(os.environ.get('keywords')):
