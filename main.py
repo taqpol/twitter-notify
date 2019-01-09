@@ -6,6 +6,7 @@ import requests
 import json
 import ast
 import traceback
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
 
@@ -42,7 +43,8 @@ def parse_post_data(post_data):
 	if check_keywords(tweet_body.lower()):
 		return tweet_body
 	else:
-		stream_links = re.findall('twitch\.tv\/\w*', r.text)
+		stream_links = re.findall('twitch\.tv\/\w*', 
+			str(BeautifulSoup(r.text, 'html.parser').find_all('p', class_='TweetTextSize')[0]))
 		if stream_links:
 			for link in ast.literal_eval(os.environ.get('blacklist')):
 				if link in stream_links:
