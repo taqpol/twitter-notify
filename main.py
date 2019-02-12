@@ -56,7 +56,7 @@ def parse_post_data(post_data):
 
 def check_keywords(tweet_text):
 	for keyword in ast.literal_eval(os.environ.get('keywords')):
-		if re.search(keyword, tweet_text):
+		if re.search(r'\b' + keyword + r'\b', tweet_text):
 			return True
 	else:
 		return False
